@@ -3,7 +3,7 @@ import './FoodItem.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../Context/StoreContext'
 const FoodItem = ({id,name, price , description,image}) => {
-    // Earlier i was using different state for each foodItem and updating through their function . Not optimised one 
+    // Earlier I was using different state for each foodItem and updating through their function . Not optimised one 
     // So , I used Context State to store the values of each food item at a particular place and accessing it from their and updation their defined function and each changes will reflect at all .  
   const {cartItems,addToCart,removeFromCart} =useContext(StoreContext);
     return (

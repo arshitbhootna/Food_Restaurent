@@ -33,3 +33,13 @@
     width: 40px;
     margin-right: 15px;
  }
+ @media(max-width:750px){
+    .footer-content{
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+    }
+    .footer-copyright{
+        text-align: center;
+    }
+ }
