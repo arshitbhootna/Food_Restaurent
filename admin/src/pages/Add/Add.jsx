@@ -3,8 +3,7 @@ import './Add.css';
 import { assets } from '../../assets/assets'
 import axios from 'axios'; // for sending data from frontend to backend
 import { toast } from 'react-toastify';
-const Add = () => {
-    const url ='http://localhost:3000';
+const Add = ({url}) => {
     // what is the need for the state whiling taking input for  data
   const [image , setImage] = useState(false);
   const [data , setData] = useState({
@@ -27,6 +26,8 @@ const Add = () => {
         formData.append('price',Number(data.price))
         formData.append('category',(data.category))
         formData.append('image',image);
+        console.log(formData);
+        console.log(typeof(formData));
 
         const response = await axios.post(`${url}/api/food/add`,formData);
         console.log(response);
