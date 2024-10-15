@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors"
 import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRoutes.js";
-
+import userRouter from "./routes/userRoutes.js";
+import 'dotenv/config';
 // app config
 const app = express();
 const port = 3000;
@@ -15,7 +16,8 @@ app.use(cors()); // we can access the backedn from any frontend.
 // DB connection
 connectDB();
 // api endpoints
-app.use('/api/food',foodRouter)
+app.use('/api/food',foodRouter);
+app.use('/api/user',userRouter);
 app.use('/images',express.static('uploads'));
 app.get("/",(req,res)=>{
     res.send("API Working"); // will get this response whenever we get request at this end .
