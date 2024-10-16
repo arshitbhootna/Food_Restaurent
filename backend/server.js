@@ -4,6 +4,8 @@ import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import 'dotenv/config';
+import cartRouter from "./routes/cartRoute.js";
+import orderRouter from "./routes/orderRoute.js";
 // app config
 const app = express();
 const port = 3000;
@@ -19,6 +21,9 @@ connectDB();
 app.use('/api/food',foodRouter);
 app.use('/api/user',userRouter);
 app.use('/images',express.static('uploads'));
+app.use('/api/cart',cartRouter);
+app.use('/api/order',orderRouter);
+
 app.get("/",(req,res)=>{
     res.send("API Working"); // will get this response whenever we get request at this end .
 })

@@ -5,11 +5,11 @@ import { StoreContext } from '../../Context/StoreContext'
 const FoodItem = ({id,name, price , description,image}) => {
     // Earlier I was using different state for each foodItem and updating through their function . Not optimised one 
     // So , I used Context State to store the values of each food item at a particular place and accessing it from their and updation their defined function and each changes will reflect at all .  
-  const {cartItems,addToCart,removeFromCart} =useContext(StoreContext);
+  const {cartItems,addToCart,removeFromCart,url} =useContext(StoreContext);
     return (
     <div className='food-item' key={id}>
         <div className="food-item-img-container">
-            <img src={image} alt="" className="food-item-image" />
+            <img src={`${url}/images/`+image} alt="" className="food-item-image" />
             
             {!cartItems[id] ?
    <img className='add' onClick={()=>addToCart(id)}
