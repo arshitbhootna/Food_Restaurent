@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import './placeorder.css'
+import { toast } from 'react-toastify';
 import { StoreContext } from '../../Context/StoreContext'
+import { useNavigate } from 'react-router-dom';
 const PlaceOrder = () => {
   const {getTotalCartAmount,token,food_list,cartItems,url} = useContext(StoreContext);
+  const navigate = useNavigate();
   const [data,setData] = useState({
     firstName:"",
     lastName:"",
@@ -38,15 +41,28 @@ const PlaceOrder = () => {
     }
     let response = await axios.post(url+"/api/order/place",orderData,{headers: {token}});
     if(response.data.success){
+      console.log("Redirecting to stripe link for payment ");
       const {session_url} = response.data;
+
+
       window.location.replace(session_url);
     }
     // alert(response.data.message);
     else{
-
-      alert("Error");
+      console.log("Some error occured");
+      alert(response.data.message);
     }
+    useEffect(()=>{
+      if(!token){
+        navigate('/cart')
+      }
+      else if (getTotalCartAmount()=== 0){
+        
+        toast.error('Cart Empty. Please add something.')
+        navigate('/cart');
 
+      }
+    },[token]);
 
   }
   return (

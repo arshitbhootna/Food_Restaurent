@@ -3,9 +3,11 @@
 import jwt from 'jsonwebtoken'
 
  const authMiddleware = async (req,res,next)=>{
-
+    console.log('checking for user presence');
     const {token} = req.headers;
-    if(!token) return res.json({success: false , message: "Not authorized"})
+    if(!token) {
+        console.log("Token not available");
+        return res.json({success: false , message: "Not }authorized"})}
     try {
         // we decoded that token to get back Our ID .
         const token_decode = jwt.verify(token,process.env.JWT_SECRET);

@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Placing user order for frontend
 const placeOrder = async (req, res) => {
-    const frontend_url = 'http://localhost:5173';  // Update this to the actual frontend URL
+    const frontend_url = 'http://localhost:5174';  // Update this to the actual frontend URL
     try {
         // Creating a new order in the database
         const newOrder = new orderModel({
@@ -20,7 +20,7 @@ const placeOrder = async (req, res) => {
         console.log("Order model created.");
 
         // Clearing user's cart after order
-        // await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} });
+        // 
 
         // Line items necessary for Stripe payment
         const line_items = req.body.items.map((item) => ({
@@ -57,6 +57,7 @@ const placeOrder = async (req, res) => {
         });
         console.log("Stripe checkout session created.");
 
+
         // Sending the session URL for redirection
         res.json({ success: true, session_url: session.url });
     } catch (error) {
@@ -64,5 +65,59 @@ const placeOrder = async (req, res) => {
         res.json({ success: false, message: "Payment failed due to an error" });
     }
 };
+const verifyOrder = async(req,res)=>{
+    console.log('before verifying for order');
+     const {orderId , success} = req.body;
+     console.log(orderId+" "+ success);
+     try {
+        if(success == "true"){
+            console.log('updating database')
+            await orderModel.findByIdAndUpdate(orderId,{payment:true});
+            res.json({success: true , message: "Paid"})
+        }
+        else{
+            console.log("deleteing database value ")
+            await orderModel.findByIdAndDelete(orderId);
+            res.json({success: false , message:"Not paid"})
+        }
+     } catch (error) {
+        console.log(error);
+        res.json({success: false , message :"Not Paid"})
+     }
+}
 
-export { placeOrder };
+// users orders for frontend
+const userOrders = async(req,res)=>{
+    try{
+        const orders = await orderModel .find({userId: req.body.userId});
+        res.json({success: true , data : orders});
+
+    }
+    catch(error){
+        console.log("Error:" +error);
+        res.json({success: false , message: "Error occured"})
+    }
+}
+// Listing orders for admin panel 
+const listOrders = async(req,res)=>{
+    try{
+        const orders = await orderModel.find({});
+        res.json({success: true , data: orders});
+    }
+    catch(error){
+        console.log("Error:"+ error);
+        res.json({success: false , message : " Some error while feteching orders "})
+    }
+}
+// api for updating order status
+const updateStatus = async(req,res)=>{
+    try{
+        await orderModel.findByIdAndUpdate(req.body.orderId,{status: req.body.status});
+        res.json({success: true , message: "Status updated"})
+    }
+    catch(error){
+        console.log("ERROR:"+ error);
+        res.json({success: false , message : "Some error occured while updating data"})
+    }
+}
+export {updateStatus,listOrders,verifyOrder, placeOrder,userOrders };
