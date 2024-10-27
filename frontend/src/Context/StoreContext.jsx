@@ -6,6 +6,8 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     // backend server url running on render.
+    // http://localhost:3000
+    //https://food-restaurent-backend.onrender.com
     const url = 'https://food-restaurent-backend.onrender.com';
     const [token, setToken] = useState('');
     const [food_list, setfoodList] = useState([]);
@@ -22,7 +24,9 @@ const StoreContextProvider = (props) => {
 
     const loadCartData = async (storedtoken) => {
         try {
+            console.log('loading cart data ')
             const response = await axios.post(url + "/api/cart/get", {userId: storedtoken }, { headers: { storedtoken } });
+            console.log("after loadid cart data "+ response.data.success)
             setCartItems(response.data.cartData);
         } catch (error) {
             console.error("Failed to load cart data:", error);
@@ -33,7 +37,7 @@ const StoreContextProvider = (props) => {
         try {
             const response = await axios.get(url + '/api/food/list');
             setfoodList(response.data.data);
-            console.log(response.data.data);
+            // console.log(response.data.data);
         } catch (error) {
             console.error("Failed to fetch food list:", error);
         }
@@ -44,7 +48,7 @@ const StoreContextProvider = (props) => {
         const loadData = async () => {
             const storedToken = localStorage.getItem('token');
             if (storedToken) {
-                console.log("Token found")
+                console.log("Token found:"+ storedToken);
                 setToken(storedToken);
                 await loadCartData(storedToken);
             }
