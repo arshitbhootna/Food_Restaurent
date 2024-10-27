@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import './placeorder.css'
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import { StoreContext } from '../../Context/StoreContext'
 import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 const PlaceOrder = () => {
   const {getTotalCartAmount,token,food_list,cartItems,url} = useContext(StoreContext);
   const navigate = useNavigate();
@@ -50,7 +51,8 @@ const PlaceOrder = () => {
     // alert(response.data.message);
     else{
       console.log("Some error occured");
-      alert(response.data.message);
+      toast.error("Please sign in");
+      // alert(response.data.message);
     }
     useEffect(()=>{
       if(!token){

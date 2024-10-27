@@ -6,9 +6,8 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     // backend server url running on render.
-    // http://localhost:3000
-    //https://food-restaurent-backend.onrender.com
-    const url = 'https://food-restaurent-backend.onrender.com';
+    const url = " http://localhost:3000";
+    // const url = 'https://food-restaurent-backend.onrender.com';
     const [token, setToken] = useState('');
     const [food_list, setfoodList] = useState([]);
 
@@ -22,10 +21,10 @@ const StoreContextProvider = (props) => {
         }
     };
 
-    const loadCartData = async (storedtoken) => {
+    const loadCartData = async (token) => {
         try {
             console.log('loading cart data ')
-            const response = await axios.post(url + "/api/cart/get", {userId: storedtoken }, { headers: { storedtoken } });
+            const response = await axios.post(url + "/api/cart/get", {userId: token }, { headers: { token } });
             console.log("after loadid cart data "+ response.data.success)
             setCartItems(response.data.cartData);
         } catch (error) {
