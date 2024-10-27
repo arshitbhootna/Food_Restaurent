@@ -11,7 +11,7 @@
     display: flex;
     list-style: none;
     gap: 20px;
-    color: aqua;
+    color: rgb(27, 24, 24);
     font-size: 18px;
 }
 .navbar-right{
