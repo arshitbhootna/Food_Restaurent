@@ -5,7 +5,15 @@ import FoodItem from '../FoodItem/FoodItem';
 const FoodDisplay = ({category}) => {
     const {food_list,url} = useContext(StoreContext);
   return (
-    <div className='food-display' id='food-display'>
+    food_list.length === 0 ? (
+                  <div className="verify">
+                      <div className="spinner"></div>
+                     <p className='fetching-message'>Fetching Menu for You </p> 
+                  </div>
+
+              ) :
+
+    (<div className='food-display' id='food-display'>
         <h2>Top dishes near you </h2>
         <div className="food-display-list">
             {
@@ -20,7 +28,7 @@ const FoodDisplay = ({category}) => {
         </div>
 
       
-    </div>
+    </div>)
   )
 }
 
