@@ -6,7 +6,6 @@ import { assets } from '../../assets/assets';
 
 const MyOrders = () => {
     const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const { url, token } = useContext(StoreContext);
 
     const fetchOrders = async () => {
@@ -17,8 +16,6 @@ const MyOrders = () => {
             }
         } catch (error) {
             console.log("Error:", error);
-        } finally {
-            setIsLoading(false);
         }
     }
 
@@ -28,7 +25,7 @@ const MyOrders = () => {
         }
     }, [token]);
 
-    if (isLoading) {
+    if (data.length === 0) {
         return (
             <div className="verify">
                 <div className="spinner"></div>
